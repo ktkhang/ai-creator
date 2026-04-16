@@ -7,15 +7,24 @@ interface Props {
 }
 
 function isRenderable(r: any): r is SongResult {
-  return r != null && typeof r.id === 'string' && typeof r.title === 'string' && r.title.trim() !== '' && typeof r.author === 'string' && r.author.trim() !== '';
+  return r != null && typeof r.id === 'string' &&
+    typeof r.title === 'string' && r.title.trim() !== '' &&
+    typeof r.author === 'string' && r.author.trim() !== '';
 }
 
-const ExternalIcon = () => (
-  <svg width="11" height="11" viewBox="0 0 12 12" fill="none" style={{ display: 'inline', marginLeft: 3, verticalAlign: '-1px', opacity: 0.6 }}>
-    <path d="M3.5 1.5H10.5V8.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M10.5 1.5L1.5 10.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+const ExternalIcon = ({ size = 10 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 12 12" fill="none"
+    style={{ display: 'inline', marginLeft: 3, verticalAlign: '-1px', opacity: 0.6 }}>
+    <path d="M3.5 1.5H10.5V8.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M10.5 1.5L1.5 10.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
+
+/** Build a YouTube search URL for a song */
+function youtubeUrl(title: string, author: string): string {
+  const q = encodeURIComponent(`${title} ${author}`);
+  return `https://www.youtube.com/results?search_query=${q}`;
+}
 
 export default function ResultsTable({ results, status }: Props) {
   const rows = results.filter(isRenderable);
@@ -42,11 +51,18 @@ export default function ResultsTable({ results, status }: Props) {
     );
   }
 
-  const thStyle: React.CSSProperties = {
-    padding: '10px 14px', fontSize: 11, fontWeight: 500, textTransform: 'uppercase',
-    letterSpacing: '0.04em', color: 'var(--text-tertiary)', textAlign: 'left',
+  const th: React.CSSProperties = {
+    padding: '10px 12px', fontSize: 11, fontWeight: 500,
+    textTransform: 'uppercase', letterSpacing: '0.04em',
+    color: 'var(--text-tertiary)', textAlign: 'left',
     borderBottom: '0.5px solid var(--border-strong)',
     position: 'sticky', top: 0, backgroundColor: 'var(--bg-secondary)', zIndex: 1,
+    whiteSpace: 'nowrap',
+  };
+
+  const linkStyle: React.CSSProperties = {
+    fontSize: 11, textDecoration: 'none', display: 'inline-flex',
+    alignItems: 'center', whiteSpace: 'nowrap',
   };
 
   return (
@@ -57,11 +73,12 @@ export default function ResultsTable({ results, status }: Props) {
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
-            <th style={{ ...thStyle, width: 42 }}>#</th>
-            <th style={thStyle}>Bai hat</th>
-            <th style={thStyle}>Tac gia</th>
-            <th style={{ ...thStyle, width: 56, textAlign: 'center' }}>Nam</th>
-            <th style={{ ...thStyle, width: 120 }}>VCPMC</th>
+            <th style={{ ...th, width: 38 }}>#</th>
+            <th style={th}>Bai hat</th>
+            <th style={th}>Tac gia</th>
+            <th style={{ ...th, width: 120 }}>The loai</th>
+            <th style={{ ...th, width: 50, textAlign: 'center' }}>Nam</th>
+            <th style={{ ...th, width: 170 }}>Lien ket</th>
           </tr>
         </thead>
         <tbody>
@@ -69,34 +86,55 @@ export default function ResultsTable({ results, status }: Props) {
             <tr
               key={r.id}
               className="animate-fade-in"
-              style={{ borderBottom: '0.5px solid var(--border)', cursor: 'default' }}
+              style={{ borderBottom: '0.5px solid var(--border)' }}
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'var(--bg-hover)')}
               onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
             >
-              <td style={{ padding: '9px 14px', color: 'var(--text-tertiary)', fontSize: 12 }}>{i + 1}</td>
-              <td style={{ padding: '9px 14px', fontWeight: 500, color: 'var(--text-primary)' }}>{r.title}</td>
-              <td style={{ padding: '9px 14px', color: 'var(--text-secondary)' }}>{r.author}</td>
-              <td style={{ padding: '9px 14px', textAlign: 'center', color: 'var(--text-tertiary)', fontSize: 12 }}>
-                {r.yearApprox ?? '—'}
+              <td style={{ padding: '9px 12px', color: 'var(--text-tertiary)', fontSize: 12 }}>
+                {i + 1}
               </td>
-              <td style={{ padding: '9px 14px' }}>
-                {r.vcpmcLink ? (
+              <td style={{ padding: '9px 12px', fontWeight: 500, color: 'var(--text-primary)' }}>
+                {r.title}
+              </td>
+              <td style={{ padding: '9px 12px', color: 'var(--text-secondary)', fontSize: 12 }}>
+                {r.author}
+              </td>
+              <td style={{ padding: '9px 12px', color: 'var(--text-tertiary)', fontSize: 11 }}>
+                {r.genre ?? '—'}
+              </td>
+              <td style={{ padding: '9px 12px', textAlign: 'center', color: 'var(--text-tertiary)', fontSize: 12 }}>
+                {r.releaseYear ?? '—'}
+              </td>
+              <td style={{ padding: '9px 12px' }}>
+                <div style={{ display: 'flex', gap: 10 }}>
+                  {/* VCPMC link – searches by song title */}
+                  {r.vcpmcLink && (
+                    <a
+                      href={r.vcpmcLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ ...linkStyle, color: 'var(--accent)' }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent-hover)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--accent)')}
+                      title="Xem tren VCPMC"
+                    >
+                      VCPMC<ExternalIcon />
+                    </a>
+                  )}
+
+                  {/* YouTube search link */}
                   <a
-                    href={r.vcpmcLink}
+                    href={youtubeUrl(r.title, r.author)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{
-                      fontSize: 12, color: 'var(--accent)', textDecoration: 'none',
-                      display: 'inline-flex', alignItems: 'center',
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent-hover)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--accent)')}
+                    style={{ ...linkStyle, color: '#ff4444' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.75')}
+                    onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+                    title="Tim tren YouTube"
                   >
-                    Xem VCPMC<ExternalIcon />
+                    YT<ExternalIcon />
                   </a>
-                ) : (
-                  <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>—</span>
-                )}
+                </div>
               </td>
             </tr>
           ))}

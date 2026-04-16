@@ -10,9 +10,8 @@ import { AppSettings, DEFAULT_SETTINGS } from '../../shared/types';
  *   3. DEFAULT_SETTINGS — base defaults
  *
  * Env var mapping:
- *   GEMINI_API_KEY           -> geminiApiKey
- *   GENIUS_API_KEY           -> geniusApiKey
- *   LASTFM_API_KEY           -> lastfmApiKey
+ *   TROLLLLM_API_KEY  -> claudeApiKey
+ *   CLAUDE_API_KEY    -> claudeApiKey (alias)
  */
 export class SettingsStore {
   private filePath: string;
@@ -89,11 +88,8 @@ export class SettingsStore {
   /** Read API keys from environment variables */
   private readEnv(): Partial<AppSettings> {
     const partial: Partial<AppSettings> = {};
-
-    if (process.env.GEMINI_API_KEY) partial.geminiApiKey = process.env.GEMINI_API_KEY;
-    if (process.env.GENIUS_API_KEY) partial.geniusApiKey = process.env.GENIUS_API_KEY;
-    if (process.env.LASTFM_API_KEY) partial.lastfmApiKey = process.env.LASTFM_API_KEY;
-
+    const key = process.env.TROLLLLM_API_KEY ?? process.env.CLAUDE_API_KEY ?? '';
+    if (key) partial.claudeApiKey = key;
     return partial;
   }
 

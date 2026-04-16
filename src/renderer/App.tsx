@@ -43,7 +43,7 @@ export default function App() {
 
   useEffect(() => {
             if (isElectron && window.api) {
-              window.api.settings.get().then((s: any) => setHasApiKey(!!s.geminiApiKey));
+              window.api.settings.get().then((s: any) => setHasApiKey(!!s.claudeApiKey));
             }
     return () => { cleanupRef.current.forEach((fn) => fn()); };
   }, [isElectron]);
@@ -94,7 +94,7 @@ export default function App() {
 
   const closeSettings = () => {
     setShowSettings(false);
-    if (isElectron && window.api) window.api.settings.get().then((s: any) => setHasApiKey(!!s.geminiApiKey));
+    if (isElectron && window.api) window.api.settings.get().then((s: any) => setHasApiKey(!!s.claudeApiKey));
   };
 
   return (
@@ -129,7 +129,7 @@ export default function App() {
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           }}>
             <span style={{ fontSize: 12, color: 'var(--warning)' }}>
-              Chua cau hinh Gemini API Key. Vui long vao Cai dat de thiet lap.
+              Chua cau hinh Claude API Key. Vui long vao Cai dat de thiet lap.
             </span>
             <button onClick={() => setShowSettings(true)} style={{
               fontSize: 12, fontWeight: 500, color: 'var(--warning)', background: 'rgba(255,214,10,0.12)',

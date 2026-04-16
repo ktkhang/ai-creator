@@ -7,8 +7,6 @@ interface Props {
 
 export default function SettingsPanel({ onClose, isElectron }: Props) {
   const [apiKey, setApiKey] = useState('');
-  const [geniusKey, setGeniusKey] = useState('');
-  const [lastfmKey, setLastfmKey] = useState('');
   const [saved, setSaved] = useState(false);
   const [logPath, setLogPath] = useState<string | null>(null);
   const [expandedGuide, setExpandedGuide] = useState<string | null>(null);
@@ -16,9 +14,7 @@ export default function SettingsPanel({ onClose, isElectron }: Props) {
   useEffect(() => {
     if (isElectron && window.api) {
       window.api.settings.get().then((s: any) => {
-        setApiKey(s.geminiApiKey ?? '');
-        setGeniusKey(s.geniusApiKey ?? '');
-        setLastfmKey(s.lastfmApiKey ?? '');
+        setApiKey(s.claudeApiKey ?? '');
       });
       window.api.log.getPath().then(setLogPath);
     }
@@ -26,10 +22,7 @@ export default function SettingsPanel({ onClose, isElectron }: Props) {
 
   const handleSave = async () => {
     if (isElectron && window.api) {
-      await window.api.settings.set({
-        geminiApiKey: apiKey, geniusApiKey: geniusKey,
-        lastfmApiKey: lastfmKey,
-      });
+      await window.api.settings.set({ claudeApiKey: apiKey });
     }
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
@@ -98,109 +91,30 @@ export default function SettingsPanel({ onClose, isElectron }: Props) {
           Cau hinh o day hoac tao file <code style={{ backgroundColor: 'var(--bg-primary)', padding: '1px 4px', borderRadius: 3 }}>.env</code> trong thu muc goc du an (xem <code style={{ backgroundColor: 'var(--bg-primary)', padding: '1px 4px', borderRadius: 3 }}>.env.example</code>).
         </p>
 
-        {/* ── Gemini ── */}
+        {/* ── Claude / TrollLLM ── */}
         <div style={{ marginBottom: 20 }}>
           <label style={labelStyle}>
-            Gemini API Key <span style={{ color: 'var(--danger)', fontWeight: 400 }}>bat buoc</span>
+            Claude API Key <span style={{ color: 'var(--danger)', fontWeight: 400 }}>bat buoc</span>
           </label>
           <input type="password" value={apiKey} onChange={(e) => setApiKey(e.target.value)}
-            placeholder="AIzaSy..." style={inputStyle} />
-          <p style={helpStyle}>Dung de AI sinh danh sach bai hat. Gemini Flash 2.5 rat nhanh va mien phi.</p>
-          <button style={guideToggleStyle} onClick={() => toggleGuide('gemini')}>
-            {expandedGuide === 'gemini' ? 'An huong dan' : 'Huong dan lay API Key'}
+            placeholder="TROLLLLM_API_KEY..." style={inputStyle} />
+          <p style={helpStyle}>Dung Claude Sonnet de phan tich yeu cau va kiem duyet ket qua. Lien he admin de lay key.</p>
+          <button style={guideToggleStyle} onClick={() => toggleGuide('claude')}>
+            {expandedGuide === 'claude' ? 'An huong dan' : 'Huong dan dang ky'}
           </button>
-          {expandedGuide === 'gemini' && (
+          {expandedGuide === 'claude' && (
             <div style={guideBoxStyle}>
               <div style={stepStyle}>
                 <div style={stepNumStyle}>1</div>
-                <span>Truy cap <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" style={linkStyle}>aistudio.google.com</a> va dang nhap bang Google.</span>
+                <span>Truy cap <a href="https://chat.trollllm.xyz" target="_blank" rel="noopener noreferrer" style={linkStyle}>chat.trollllm.xyz</a> va dang ky tai khoan.</span>
               </div>
               <div style={stepStyle}>
                 <div style={stepNumStyle}>2</div>
-                <span>Vao menu <strong style={{ color: 'var(--text-primary)' }}>Get API key</strong> tai <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" style={linkStyle}>aistudio.google.com/app/apikey</a>.</span>
+                <span>Vao phan <strong style={{ color: 'var(--text-primary)' }}>API Keys</strong> trong dashboard, tao key moi.</span>
               </div>
               <div style={stepStyle}>
                 <div style={stepNumStyle}>3</div>
-                <span>Nhan <strong style={{ color: 'var(--text-primary)' }}>Create API key</strong>, tao trong mot project moi hoac hien co.</span>
-              </div>
-              <div style={stepStyle}>
-                <div style={stepNumStyle}>4</div>
-                <span>Copy key (bat dau bang <code style={{ backgroundColor: 'var(--bg-tertiary)', padding: '1px 4px', borderRadius: 3 }}>AIzaSy...</code>) va dan vao o phia tren.</span>
-              </div>
-              <div style={{ marginTop: 8, padding: '6px 10px', borderRadius: 'var(--radius-sm)', backgroundColor: 'rgba(48,209,88,0.06)', border: '0.5px solid rgba(48,209,88,0.15)', fontSize: 11, color: 'var(--success)' }}>
-                Gemini API mien phi cho hau het cac muc dich su dung ca nhan (toi da 15 req/phut).
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* ── Genius ── */}
-        <div style={{ marginBottom: 20 }}>
-          <label style={labelStyle}>
-            Genius API Key <span style={{ color: 'var(--text-tertiary)', fontWeight: 400 }}>tuy chon</span>
-          </label>
-          <input type="password" value={geniusKey} onChange={(e) => setGeniusKey(e.target.value)}
-            placeholder="..." style={inputStyle} />
-          <p style={helpStyle}>Tim kiem bai hat theo loi nhac tu Genius. Mien phi.</p>
-          <button style={guideToggleStyle} onClick={() => toggleGuide('genius')}>
-            {expandedGuide === 'genius' ? 'An huong dan' : 'Huong dan lay API Key'}
-          </button>
-          {expandedGuide === 'genius' && (
-            <div style={guideBoxStyle}>
-              <div style={stepStyle}>
-                <div style={stepNumStyle}>1</div>
-                <span>Truy cap <a href="https://genius.com/signup" target="_blank" rel="noopener noreferrer" style={linkStyle}>genius.com</a> va tao tai khoan mien phi.</span>
-              </div>
-              <div style={stepStyle}>
-                <div style={stepNumStyle}>2</div>
-                <span>Vao trang <a href="https://genius.com/api-clients" target="_blank" rel="noopener noreferrer" style={linkStyle}>genius.com/api-clients</a> va nhan <strong style={{ color: 'var(--text-primary)' }}>New API Client</strong>.</span>
-              </div>
-              <div style={stepStyle}>
-                <div style={stepNumStyle}>3</div>
-                <span>Dien <strong style={{ color: 'var(--text-primary)' }}>App Name</strong> (ten bat ky, VD: "AI Creator") va <strong style={{ color: 'var(--text-primary)' }}>App Website URL</strong> (bat ky, VD: http://localhost).</span>
-              </div>
-              <div style={stepStyle}>
-                <div style={stepNumStyle}>4</div>
-                <span>Sau khi tao xong, nhan <strong style={{ color: 'var(--text-primary)' }}>Generate Access Token</strong>. Copy token va dan vao o phia tren.</span>
-              </div>
-              <div style={{ marginTop: 8, fontSize: 11, color: 'var(--text-tertiary)' }}>
-                Genius API hoan toan mien phi, gioi han 150 request/phut.
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* ── Last.fm ── */}
-        <div style={{ marginBottom: 20 }}>
-          <label style={labelStyle}>
-            Last.fm API Key <span style={{ color: 'var(--text-tertiary)', fontWeight: 400 }}>tuy chon</span>
-          </label>
-          <input type="password" value={lastfmKey} onChange={(e) => setLastfmKey(e.target.value)}
-            placeholder="..." style={inputStyle} />
-          <p style={helpStyle}>Tim kiem bai hat theo ten/tag tu Last.fm. Hoan toan mien phi, khong can premium.</p>
-          <button style={guideToggleStyle} onClick={() => toggleGuide('lastfm')}>
-            {expandedGuide === 'lastfm' ? 'An huong dan' : 'Huong dan lay API Key'}
-          </button>
-          {expandedGuide === 'lastfm' && (
-            <div style={guideBoxStyle}>
-              <div style={stepStyle}>
-                <div style={stepNumStyle}>1</div>
-                <span>Truy cap <a href="https://www.last.fm/join" target="_blank" rel="noopener noreferrer" style={linkStyle}>last.fm/join</a> va tao tai khoan mien phi.</span>
-              </div>
-              <div style={stepStyle}>
-                <div style={stepNumStyle}>2</div>
-                <span>Vao trang <a href="https://www.last.fm/api/account/create" target="_blank" rel="noopener noreferrer" style={linkStyle}>last.fm/api/account/create</a> de dang ky ung dung API.</span>
-              </div>
-              <div style={stepStyle}>
-                <div style={stepNumStyle}>3</div>
-                <span>Dien <strong style={{ color: 'var(--text-primary)' }}>Application name</strong> (bat ky, VD: "AI Creator") va <strong style={{ color: 'var(--text-primary)' }}>Application description</strong> (bat ky). Cac truong khac de trong.</span>
-              </div>
-              <div style={stepStyle}>
-                <div style={stepNumStyle}>4</div>
-                <span>Nhan <strong style={{ color: 'var(--text-primary)' }}>Submit</strong>. Trang tiep theo se hien thi <strong style={{ color: 'var(--text-primary)' }}>API Key</strong>. Copy va dan vao o phia tren.</span>
-              </div>
-              <div style={{ marginTop: 8, fontSize: 11, color: 'var(--text-tertiary)' }}>
-                Last.fm API hoan toan mien phi, khong gioi han so luong request cho muc dich ca nhan.
+                <span>Copy API key va dan vao o phia tren. Co the dat vao bien moi truong <code style={{ backgroundColor: 'var(--bg-tertiary)', padding: '1px 4px', borderRadius: 3 }}>TROLLLLM_API_KEY</code> trong file <code style={{ backgroundColor: 'var(--bg-tertiary)', padding: '1px 4px', borderRadius: 3 }}>.env</code>.</span>
               </div>
             </div>
           )}

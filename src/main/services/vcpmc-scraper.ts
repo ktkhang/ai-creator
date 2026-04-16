@@ -31,79 +31,85 @@ export class VcpmcScraper {
     this.cache = new LruCache<VcpmcRecord[]>(200, 60 * 60 * 1000);
   }
 
-  /** Encode keyword for VCPMC URL (double-encode spaces) */
+  /** Encode keyword for VCPMC URL (double-encode spaces, preserve Vietnamese diacritics) */
   encodeKeyword(keyword: string): string {
-    return (keyword ?? '')
+    if (!keyword) return '';
+    // Encode each word individually, then join with %2520 (double-encoded space)
+    return keyword
       .trim()
-      .toLowerCase()
-      .replace(/\s+/g, '%2520');
+      .split(/\s+/)
+      .map((word) => encodeURIComponent(word))
+      .join('%2520');
   }
 
   /** Build a VCPMC search URL */
-  buildSearchUrl(keyword: string, type?: 'author' | 'title', page?: number): string {
+  buildSearchUrl(keyword: string, _type?: 'author' | 'title', page?: number): string {
     const encoded = this.encodeKeyword(keyword);
-    // VCPMC only supports author.html for both author and title searches
     if (!page || page === 1) {
       return `${this.baseUrl}/${encoded}/author.html`;
     }
     return `${this.baseUrl}/${encoded}/author-page${page}.html`;
   }
 
-  /** Search VCPMC by author, fetching all pages. Results are cached. */
+  /**
+   * Search VCPMC by any keyword (theme, song title, author name).
+   * This is the primary search method - VCPMC's /author.html endpoint
+   * searches across both song titles and author names.
+   */
+  async searchByKeyword(keyword: string, maxPages = 3): Promise<VcpmcRecord[]> {
+    const cacheKey = `kw::${this.normalize(keyword)}`;
+    const cached = this.cache.get(cacheKey);
+    if (cached) {
+      this.log.debug(`Cache hit for keyword "${keyword}" (${cached.length} records)`);
+      return cached;
+    }
+
+    const records = await this.fetchAllPages(keyword, maxPages);
+    this.cache.set(cacheKey, records);
+    this.log.info(`Keyword "${keyword}" -> ${records.length} records`);
+    return records;
+  }
+
+  /** @deprecated Use searchByKeyword instead */
   async searchByAuthor(author: string): Promise<VcpmcRecord[]> {
-    const cacheKey = `author::${this.normalize(author)}`;
-    const cached = this.cache.get(cacheKey);
-    if (cached) {
-      this.log.debug(`Cache hit for author "${author}" (${cached.length} records)`);
-      return cached;
-    }
-
-    const records = await this.searchAll(author, 'author');
-    this.cache.set(cacheKey, records);
-    this.log.info(`Fetched ${records.length} records for author "${author}"`);
-    return records;
+    return this.searchByKeyword(author, 3);
   }
 
-  /** Search VCPMC by title. Results are cached. */
+  /** @deprecated Use searchByKeyword instead */
   async searchByTitle(title: string): Promise<VcpmcRecord[]> {
-    const cacheKey = `title::${this.normalize(title)}`;
-    const cached = this.cache.get(cacheKey);
-    if (cached) {
-      this.log.debug(`Cache hit for title "${title}"`);
-      return cached;
-    }
-
-    const records = await this.searchAll(title, 'title');
-    this.cache.set(cacheKey, records);
-    return records;
+    return this.searchByKeyword(title, 2);
   }
 
-  /** Fetch all pages of search results */
-  private async searchAll(keyword: string, type: 'author' | 'title'): Promise<VcpmcRecord[]> {
+  /** Fetch all pages of search results up to maxPages */
+  private async fetchAllPages(keyword: string, maxPages: number): Promise<VcpmcRecord[]> {
     const allRecords: VcpmcRecord[] = [];
-    let totalPages = 1;
 
     // Fetch page 1
-    const page1Url = this.buildSearchUrl(keyword, type);
+    const page1Url = this.buildSearchUrl(keyword);
     const { records, lastPage } = await this.fetchPageWithRetry(page1Url);
     allRecords.push(...records);
-    totalPages = Math.min(lastPage, this.maxPages);
+    const totalPages = Math.min(lastPage, maxPages);
 
     // Fetch remaining pages
     for (let p = 2; p <= totalPages; p++) {
       await this.delay();
-      const url = this.buildSearchUrl(keyword, type, p);
+      const url = this.buildSearchUrl(keyword, undefined, p);
       try {
         const result = await this.fetchPageWithRetry(url);
         allRecords.push(...result.records);
         if (result.records.length === 0) break;
       } catch (err: any) {
         this.log.warn(`Failed to fetch page ${p} for "${keyword}": ${err.message}`);
-        break; // Stop paginating on error, return what we have
+        break;
       }
     }
 
     return allRecords;
+  }
+
+  /** Fetch all pages of search results */
+  private async searchAll(keyword: string, _type: 'author' | 'title'): Promise<VcpmcRecord[]> {
+    return this.fetchAllPages(keyword, this.maxPages);
   }
 
   /** Fetch a single page with retry */

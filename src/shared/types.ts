@@ -1,12 +1,5 @@
 /** Shared types between main and renderer processes */
 
-export interface SongCandidate {
-  title: string;
-  author: string;
-  yearApprox?: number;
-  source: 'llm' | 'genius' | 'lastfm' | 'web-search';
-}
-
 export interface VcpmcRecord {
   title: string;
   musicAuthor: string;
@@ -19,7 +12,8 @@ export interface SongResult {
   id: string;
   title: string;
   author: string;
-  yearApprox?: number;
+  genre?: string;       // from iTunes
+  releaseYear?: number; // from iTunes
   vcpmcStatus: 'pending' | 'verified' | 'not-found';
   vcpmcLink?: string;
   vcpmcRecord?: VcpmcRecord;
@@ -41,11 +35,10 @@ export interface SearchSession {
   };
 }
 
-/** IPC channel names */
 export const IPC = {
   SEARCH_START: 'search:start',
-  SEARCH_RESULT: 'search:result',       // streaming single result
-  SEARCH_STATUS: 'search:status',       // status update
+  SEARCH_RESULT: 'search:result',
+  SEARCH_STATUS: 'search:status',
   SEARCH_COMPLETE: 'search:complete',
   LOG_PATH_GET: 'log:path',
   SETTINGS_GET: 'settings:get',
@@ -53,15 +46,13 @@ export const IPC = {
 } as const;
 
 export interface AppSettings {
-  geminiApiKey: string;
-  geniusApiKey?: string;
-  lastfmApiKey?: string;
+  claudeApiKey: string;
   maxResultsPerSearch: number;
   vcpmcRequestDelayMs: number;
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
-  geminiApiKey: '',
+  claudeApiKey: '',
   maxResultsPerSearch: 30,
-  vcpmcRequestDelayMs: 600,
+  vcpmcRequestDelayMs: 300,
 };
