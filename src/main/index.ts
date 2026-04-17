@@ -4,10 +4,18 @@ import { IPC } from '../shared/types';
 import { SearchOrchestrator } from './services/orchestrator';
 import { SettingsStore } from './services/settings';
 import { Logger } from './services/logger';
+import { LyricsCache } from './services/lyrics-cache';
 
 const log = new Logger('Main');
 let mainWindow: BrowserWindow | null = null;
 const settings = new SettingsStore();
+// Lazy-initialize on first use — avoid opening SQLite until the feature is
+// actually exercised (keeps cold-start fast).
+let lyricsCacheInstance: LyricsCache | null = null;
+function getLyricsCache(): LyricsCache {
+  if (!lyricsCacheInstance) lyricsCacheInstance = new LyricsCache();
+  return lyricsCacheInstance;
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -116,6 +124,20 @@ app.whenReady().then(() => {
   // IPC: Log file path
   ipcMain.handle(IPC.LOG_PATH_GET, () => {
     return Logger.getLogFilePath();
+  });
+
+  // IPC: Lyrics fetch — lazy, on-demand from renderer
+  ipcMain.handle(IPC.LYRICS_FETCH, async (_event, payload: { title: string; artist: string }) => {
+    const { title, artist } = payload ?? {};
+    if (!title || !artist) {
+      return { status: 'error', source: 'lrclib', error: 'Missing title or artist' };
+    }
+    try {
+      return await getLyricsCache().fetch(title, artist);
+    } catch (err: any) {
+      log.error(`Lyrics fetch error for "${title}" / "${artist}":`, err);
+      return { status: 'error', source: 'lrclib', error: err.message ?? 'Unknown error' };
+    }
   });
 
   app.on('activate', () => {

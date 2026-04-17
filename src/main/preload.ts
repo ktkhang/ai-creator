@@ -9,6 +9,7 @@ const IPC = {
   SETTINGS_GET: 'settings:get',
   SETTINGS_SET: 'settings:set',
   LOG_PATH_GET: 'log:path',
+  LYRICS_FETCH: 'lyrics:fetch',
 };
 
 contextBridge.exposeInMainWorld('api', {
@@ -36,5 +37,9 @@ contextBridge.exposeInMainWorld('api', {
   },
   log: {
     getPath: (): Promise<string | null> => ipcRenderer.invoke(IPC.LOG_PATH_GET),
+  },
+  lyrics: {
+    fetch: (title: string, artist: string): Promise<any> =>
+      ipcRenderer.invoke(IPC.LYRICS_FETCH, { title, artist }),
   },
 });

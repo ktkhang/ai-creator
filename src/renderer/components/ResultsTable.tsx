@@ -5,6 +5,7 @@ interface Props {
   results: SongResult[];
   status: string;
   targetCount?: number;
+  onOpenLyrics?: (title: string, artist: string) => void;
 }
 
 /* ────────────────── Helpers ────────────────── */
@@ -77,6 +78,13 @@ const CopyIcon = ({ size = 13 }: { size?: number }) => (
   </svg>
 );
 
+const LyricsIcon = ({ size = 14 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M4 6h11M4 12h11M4 18h7" />
+    <path d="M17 17l2 2 4-4" />
+  </svg>
+);
+
 /* ────────────────── Empty / loading states ────────────────── */
 
 function EmptyIdle() {
@@ -127,7 +135,7 @@ function SkeletonCards({ count }: { count: number }) {
 
 /* ────────────────── Song row/card ────────────────── */
 
-function SongCard({ r, idx, view }: { r: SongResult; idx: number; view: 'card' | 'list' }) {
+function SongCard({ r, idx, view, onOpenLyrics }: { r: SongResult; idx: number; view: 'card' | 'list'; onOpenLyrics?: (title: string, artist: string) => void }) {
   const [copied, setCopied] = useState(false);
 
   const copy = (e: React.MouseEvent) => {
@@ -205,6 +213,17 @@ function SongCard({ r, idx, view }: { r: SongResult; idx: number; view: 'card' |
       <div style={{
         display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0,
       }}>
+        {onOpenLyrics && (
+          <button
+            onClick={() => onOpenLyrics(r.title, r.author)}
+            title="Xem lời bài hát"
+            style={iconBtnStyle}
+            onMouseEnter={(e) => { e.currentTarget.style.color = 'var(--accent-hover)'; e.currentTarget.style.background = 'var(--accent-soft)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.background = 'transparent'; }}
+          >
+            <LyricsIcon size={14} />
+          </button>
+        )}
         <a
           href={youtubeUrl(r.title, r.author)}
           target="_blank" rel="noopener noreferrer"
@@ -266,7 +285,7 @@ function Chip({ children, variant = 'default' }: { children: React.ReactNode; va
 
 /* ────────────────── Main ────────────────── */
 
-export default function ResultsTable({ results, status, targetCount = 30 }: Props) {
+export default function ResultsTable({ results, status, targetCount = 30, onOpenLyrics }: Props) {
   const [view, setView] = useState<'card' | 'list'>('card');
   const [filter, setFilter] = useState('');
   const deferredFilter = useDeferredValue(filter);
@@ -359,13 +378,13 @@ export default function ResultsTable({ results, status, targetCount = 30 }: Prop
           </div>
         ) : view === 'card' ? (
           <div style={cardsGrid}>
-            {filtered.map((r, i) => <SongCard key={r.id} r={r} idx={i} view="card" />)}
+            {filtered.map((r, i) => <SongCard key={r.id} r={r} idx={i} view="card" onOpenLyrics={onOpenLyrics} />)}
             {isLoading && rows.length < targetCount && (
               <SkeletonCards count={Math.min(4, targetCount - rows.length)} />
             )}
           </div>
         ) : (
-          <ListView rows={filtered} isLoading={isLoading} pad={Math.min(4, targetCount - rows.length)} />
+          <ListView rows={filtered} isLoading={isLoading} pad={Math.min(4, targetCount - rows.length)} onOpenLyrics={onOpenLyrics} />
         )}
       </div>
     </div>
@@ -374,7 +393,7 @@ export default function ResultsTable({ results, status, targetCount = 30 }: Prop
 
 /* ────────────────── List view (compact table) ────────────────── */
 
-function ListView({ rows, isLoading, pad }: { rows: SongResult[]; isLoading: boolean; pad: number }) {
+function ListView({ rows, isLoading, pad, onOpenLyrics }: { rows: SongResult[]; isLoading: boolean; pad: number; onOpenLyrics?: (title: string, artist: string) => void }) {
   return (
     <div style={{
       borderRadius: 'var(--r-md)',
@@ -421,6 +440,11 @@ function ListView({ rows, isLoading, pad }: { rows: SongResult[]; isLoading: boo
           <div style={{ fontSize: 11, color: 'var(--text-tertiary)' }}>{r.genre ?? '—'}</div>
           <div style={{ fontSize: 11, color: 'var(--text-tertiary)', textAlign: 'center' }}>{r.releaseYear ?? '—'}</div>
           <div style={{ display: 'flex', gap: 4 }}>
+            {onOpenLyrics && (
+              <button onClick={() => onOpenLyrics(r.title, r.author)} style={iconBtnStyle} title="Lời bài hát">
+                <LyricsIcon size={13} />
+              </button>
+            )}
             <a href={youtubeUrl(r.title, r.author)} target="_blank" rel="noopener noreferrer" style={iconBtnStyle} title="YouTube">
               <PlayIcon size={13} />
             </a>

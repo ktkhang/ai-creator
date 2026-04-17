@@ -72,7 +72,26 @@ export const IPC = {
   LOG_PATH_GET: 'log:path',
   SETTINGS_GET: 'settings:get',
   SETTINGS_SET: 'settings:set',
+  LYRICS_FETCH: 'lyrics:fetch',
 } as const;
+
+/**
+ * Lyrics record (from LRCLIB or cache).
+ * `status` is 'ok' when lyrics found, 'instrumental' for instrumental tracks,
+ * 'not-found' when LRCLIB has no match, 'error' on network failures.
+ */
+export interface LyricsResult {
+  status: 'ok' | 'instrumental' | 'not-found' | 'error';
+  source: 'lrclib' | 'cache';
+  trackName?: string;
+  artistName?: string;
+  albumName?: string;
+  duration?: number;
+  plainLyrics?: string;
+  syncedLyrics?: string;    // LRC format "[mm:ss.xx] line"
+  fetchedAt?: number;       // epoch ms
+  error?: string;
+}
 
 export interface AppSettings {
   aiProvider: AiProvider;

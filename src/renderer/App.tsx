@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import type { SongResult, SearchSession, ThinkingStep } from '../shared/types';
+import type { SongResult, SearchSession, ThinkingStep, LyricsResult } from '../shared/types';
 import SearchBar from './components/SearchBar';
 import ResultsTable from './components/ResultsTable';
 import SettingsPanel from './components/SettingsPanel';
 import ThinkingPanel from './components/ThinkingPanel';
+import LyricsDrawer from './components/LyricsDrawer';
 
 declare global {
   interface Window {
@@ -16,6 +17,7 @@ declare global {
       };
       settings: { get: () => Promise<any>; set: (s: any) => Promise<any> };
       log: { getPath: () => Promise<string | null> };
+      lyrics: { fetch: (title: string, artist: string) => Promise<LyricsResult> };
     };
   }
 }
@@ -132,6 +134,7 @@ export default function App() {
   const [targetCount, setTargetCount] = useState(30);
   const [hasApiKey, setHasApiKey] = useState<boolean | null>(null);
   const [thinkingSteps, setThinkingSteps] = useState<ThinkingStep[]>([]);
+  const [lyricsFor, setLyricsFor] = useState<{ title: string; artist: string } | null>(null);
   const cleanupRef = useRef<(() => void)[]>([]);
   const stepCounterRef = useRef(0);
 
@@ -331,6 +334,7 @@ export default function App() {
                 results={results}
                 status={status}
                 targetCount={targetCount}
+                onOpenLyrics={(title, artist) => setLyricsFor({ title, artist })}
               />
             </>
           )}
@@ -352,6 +356,14 @@ export default function App() {
           )}
         </main>
       </div>
+
+      {/* Lyrics drawer (keeps mounted so slide-out animation works on close) */}
+      <LyricsDrawer
+        open={lyricsFor != null}
+        title={lyricsFor?.title ?? ''}
+        artist={lyricsFor?.artist ?? ''}
+        onClose={() => setLyricsFor(null)}
+      />
     </>
   );
 }
