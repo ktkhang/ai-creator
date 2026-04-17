@@ -53,11 +53,14 @@ export class VcpmcScraper {
 
   /**
    * Search VCPMC by any keyword (theme, song title, author name).
-   * This is the primary search method - VCPMC's /author.html endpoint
-   * searches across both song titles and author names.
+   * NOTE: VCPMC's /author.html endpoint performs FULL-TEXT search across
+   * both song titles and author names — the /title.html endpoint exists
+   * but returns empty results, so /author.html is the canonical endpoint.
+   *
+   * @param maxPages cap the number of pages to fetch (1 page ≈ 5 records)
    */
   async searchByKeyword(keyword: string, maxPages = 3): Promise<VcpmcRecord[]> {
-    const cacheKey = `kw::${this.normalize(keyword)}`;
+    const cacheKey = `kw::${this.normalize(keyword)}::p${maxPages}`;
     const cached = this.cache.get(cacheKey);
     if (cached) {
       this.log.debug(`Cache hit for keyword "${keyword}" (${cached.length} records)`);
@@ -66,8 +69,39 @@ export class VcpmcScraper {
 
     const records = await this.fetchAllPages(keyword, maxPages);
     this.cache.set(cacheKey, records);
-    this.log.info(`Keyword "${keyword}" -> ${records.length} records`);
+    this.log.info(`Keyword "${keyword}" -> ${records.length} records (maxPages=${maxPages})`);
     return records;
+  }
+
+  /**
+   * Lightweight probe: fetch only page 1 and return record count + sample
+   * titles. Used for artist pre-validation without burning budget on pagination.
+   */
+  async probeKeyword(keyword: string): Promise<{ count: number; lastPage: number; sampleTitles: string[] }> {
+    const cacheKey = `probe::${this.normalize(keyword)}`;
+    const cached = this.cache.get(cacheKey);
+    if (cached) {
+      return {
+        count: cached.length,
+        lastPage: Math.max(1, Math.ceil(cached.length / 5)),
+        sampleTitles: cached.slice(0, 5).map((r) => r.title),
+      };
+    }
+
+    try {
+      const url = this.buildSearchUrl(keyword);
+      const { records, lastPage } = await this.fetchPageWithRetry(url);
+      // Populate cache with page-1 records so later full fetches reuse them
+      this.cache.set(`kw::${this.normalize(keyword)}::p1`, records);
+      return {
+        count: records.length,
+        lastPage,
+        sampleTitles: records.slice(0, 5).map((r) => r.title),
+      };
+    } catch (err: any) {
+      this.log.warn(`probeKeyword "${keyword}" failed: ${err.message}`);
+      return { count: 0, lastPage: 1, sampleTitles: [] };
+    }
   }
 
   /** @deprecated Use searchByKeyword instead */

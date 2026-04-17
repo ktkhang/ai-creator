@@ -1,5 +1,25 @@
 /** Shared types between main and renderer processes */
 
+export type AiProvider = 'claude' | 'gemini';
+
+export interface AiModelOption {
+  id: string;
+  label: string;
+}
+
+export const AI_MODELS: Record<AiProvider, AiModelOption[]> = {
+  claude: [
+    { id: 'claude-sonnet-4-5', label: 'Claude Sonnet 4.5' },
+    { id: 'claude-sonnet-4.6', label: 'Claude Sonnet 4.6' },
+    { id: 'claude-haiku-3-5', label: 'Claude Haiku 3.5 (nhanh)' },
+  ],
+  gemini: [
+    { id: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash (nhanh)' },
+    { id: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro' },
+    { id: 'gemini-2.0-flash', label: 'Gemini 2.0 Flash' },
+  ],
+};
+
 export interface VcpmcRecord {
   title: string;
   musicAuthor: string;
@@ -12,13 +32,22 @@ export interface SongResult {
   id: string;
   title: string;
   author: string;
-  genre?: string;       // from iTunes
-  releaseYear?: number; // from iTunes
+  genre?: string;
+  releaseYear?: number;
   vcpmcStatus: 'pending' | 'verified' | 'not-found';
   vcpmcLink?: string;
   vcpmcRecord?: VcpmcRecord;
   sources: string[];
   score: number;
+}
+
+export interface ThinkingStep {
+  id: string;
+  phase: 'criteria' | 'vcpmc' | 'curate' | 'expand';
+  message: string;
+  detail?: string;
+  status: 'running' | 'done' | 'error';
+  ts: number;
 }
 
 export interface SearchSession {
@@ -46,13 +75,19 @@ export const IPC = {
 } as const;
 
 export interface AppSettings {
+  aiProvider: AiProvider;
+  aiModel: string;
   claudeApiKey: string;
+  geminiApiKey: string;
   maxResultsPerSearch: number;
   vcpmcRequestDelayMs: number;
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
+  aiProvider: 'claude',
+  aiModel: 'claude-sonnet-4.6',
   claudeApiKey: '',
+  geminiApiKey: '',
   maxResultsPerSearch: 30,
   vcpmcRequestDelayMs: 300,
 };

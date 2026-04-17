@@ -10,8 +10,8 @@ import { AppSettings, DEFAULT_SETTINGS } from '../../shared/types';
  *   3. DEFAULT_SETTINGS — base defaults
  *
  * Env var mapping:
- *   TROLLLLM_API_KEY  -> claudeApiKey
- *   CLAUDE_API_KEY    -> claudeApiKey (alias)
+ *   TROLLLLM_API_KEY / CLAUDE_API_KEY  -> claudeApiKey
+ *   GEMINI_API_KEY                     -> geminiApiKey
  */
 export class SettingsStore {
   private filePath: string;
@@ -88,8 +88,10 @@ export class SettingsStore {
   /** Read API keys from environment variables */
   private readEnv(): Partial<AppSettings> {
     const partial: Partial<AppSettings> = {};
-    const key = process.env.TROLLLLM_API_KEY ?? process.env.CLAUDE_API_KEY ?? '';
-    if (key) partial.claudeApiKey = key;
+    const claudeKey = process.env.TROLLLLM_API_KEY ?? process.env.CLAUDE_API_KEY ?? '';
+    if (claudeKey) partial.claudeApiKey = claudeKey;
+    const geminiKey = process.env.GEMINI_API_KEY ?? '';
+    if (geminiKey) partial.geminiApiKey = geminiKey;
     return partial;
   }
 

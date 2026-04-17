@@ -512,3 +512,178 @@
 [SESSION START] 2026-04-16T16:08:58.638Z
 ============================================================
 [2026-04-16T16:08:58.635Z] [INFO ] [Orchestrator] Orchestrator ready {"hasClaude":true,"maxResults":10}
+
+============================================================
+[SESSION START] 2026-04-17T03:00:57.316Z
+============================================================
+[2026-04-17T03:00:57.314Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/n%C3%B3i/author.html
+[2026-04-17T03:00:58.453Z] [INFO ] [VcpmcScraper] Keyword "nói" -> 20 records
+[2026-04-17T03:00:58.454Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/t%C3%ACnh/author.html
+[2026-04-17T03:00:58.921Z] [INFO ] [VcpmcScraper] Keyword "tình" -> 20 records
+[2026-04-17T03:00:58.921Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/y%C3%AAu/author.html
+[2026-04-17T03:00:59.484Z] [INFO ] [VcpmcScraper] Keyword "yêu" -> 20 records
+[2026-04-17T03:00:59.485Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/t%C3%ACnh%2520y%C3%AAu/author.html
+[2026-04-17T03:01:00.059Z] [INFO ] [VcpmcScraper] Keyword "tình yêu" -> 20 records
+[2026-04-17T03:01:00.059Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Ho%C3%A0ng%2520D%C5%A9ng/author.html
+[2026-04-17T03:01:00.529Z] [INFO ] [VcpmcScraper] Keyword "Hoàng Dũng" -> 20 records
+[2026-04-17T03:01:00.529Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/S%C6%A1n%2520T%C3%B9ng/author.html
+[2026-04-17T03:01:01.038Z] [INFO ] [VcpmcScraper] Keyword "Sơn Tùng" -> 1 records
+[2026-04-17T03:01:01.038Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Noo%2520Ph%C6%B0%E1%BB%9Bc%2520Th%E1%BB%8Bnh/author.html
+[2026-04-17T03:01:01.585Z] [INFO ] [VcpmcScraper] Keyword "Noo Phước Thịnh" -> 0 records
+[2026-04-17T03:01:01.586Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/nh%E1%BB%9B%2520em/author.html
+[2026-04-17T03:01:02.355Z] [INFO ] [VcpmcScraper] Keyword "nhớ em" -> 20 records
+
+============================================================
+[SESSION START] 2026-04-17T03:06:46.531Z
+============================================================
+[2026-04-17T03:06:46.529Z] [INFO ] [Orchestrator] Orchestrator ready [Claude/claude-sonnet-4.6] {"maxResults":15}
+[2026-04-17T03:06:46.531Z] [INFO ] [Orchestrator] === SEARCH: "nhạc trẻ nói về tình yêu" (target=15) ===
+[2026-04-17T03:06:46.531Z] [INFO ] [ClaudeAgent] Extracting criteria: "nhạc trẻ nói về tình yêu"
+[2026-04-17T03:07:09.902Z] [DEBUG] [ClaudeClient] Tokens: in=720 out=333
+[2026-04-17T03:07:09.903Z] [INFO ] [ClaudeAgent] Criteria: 0 artists, 0 thematic
+[2026-04-17T03:07:09.903Z] [INFO ] [Orchestrator] AI suggested 0 artists + 0 thematic keywords
+[2026-04-17T03:07:09.904Z] [INFO ] [Orchestrator] First batch: 0 unique VCPMC records
+[2026-04-17T03:07:09.904Z] [WARN ] [Orchestrator] Loop 1: no records to curate
+[2026-04-17T03:07:09.904Z] [INFO ] [ClaudeAgent] Generating more keywords (0/15 found)...
+[2026-04-17T03:07:13.572Z] [DEBUG] [ClaudeClient] Tokens: in=211 out=86
+[2026-04-17T03:07:13.573Z] [INFO ] [Orchestrator] Next loop keywords: [Sơn Tùng M-TP, Đen Vâu, Bích Phương, Hà Anh Tuấn, Mỹ Tâm, Trúc Nhân, Vũ Cát Tường, Erik]
+[2026-04-17T03:07:13.575Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/S%C6%A1n%2520T%C3%B9ng%2520M-TP/author.html
+[2026-04-17T03:07:13.578Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/%C4%90en%2520V%C3%A2u/author.html
+[2026-04-17T03:07:13.580Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/B%C3%ADch%2520Ph%C6%B0%C6%A1ng/author.html
+[2026-04-17T03:07:13.581Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/H%C3%A0%2520Anh%2520Tu%E1%BA%A5n/author.html
+[2026-04-17T03:07:13.582Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/M%E1%BB%B9%2520T%C3%A2m/author.html
+[2026-04-17T03:07:14.237Z] [INFO ] [VcpmcScraper] Keyword "Đen Vâu" -> 0 records
+[2026-04-17T03:07:14.246Z] [INFO ] [VcpmcScraper] Keyword "Sơn Tùng M-TP" -> 0 records
+[2026-04-17T03:07:14.589Z] [INFO ] [VcpmcScraper] Keyword "Bích Phương" -> 5 records
+[2026-04-17T03:07:14.605Z] [INFO ] [VcpmcScraper] Keyword "Hà Anh Tuấn" -> 2 records
+[2026-04-17T03:07:14.800Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/M%E1%BB%B9%2520T%C3%A2m/author-page2.html
+[2026-04-17T03:07:15.357Z] [INFO ] [VcpmcScraper] Keyword "Mỹ Tâm" -> 40 records
+[2026-04-17T03:07:15.459Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Tr%C3%BAc%2520Nh%C3%A2n/author.html
+[2026-04-17T03:07:15.460Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/V%C5%A9%2520C%C3%A1t%2520T%C6%B0%E1%BB%9Dng/author.html
+[2026-04-17T03:07:15.461Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Erik/author.html
+[2026-04-17T03:07:15.918Z] [INFO ] [VcpmcScraper] Keyword "Erik" -> 12 records
+[2026-04-17T03:07:15.960Z] [INFO ] [VcpmcScraper] Keyword "Trúc Nhân" -> 0 records
+[2026-04-17T03:07:16.183Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/V%C5%A9%2520C%C3%A1t%2520T%C6%B0%E1%BB%9Dng/author-page2.html
+[2026-04-17T03:07:16.734Z] [INFO ] [VcpmcScraper] Keyword "Vũ Cát Tường" -> 40 records
+[2026-04-17T03:07:16.734Z] [INFO ] [Orchestrator] VCPMC search: 92 unique records from 8 keywords
+[2026-04-17T03:07:16.735Z] [INFO ] [ClaudeAgent] Curating 60 records (of 92)...
+[2026-04-17T03:07:30.803Z] [ERROR] [ClaudeClient] API error: Request failed with status code 502
+[2026-04-17T03:07:30.804Z] [ERROR] [ClaudeAgent] curateBatch failed: Claude API error: Request failed with status code 502
+[2026-04-17T03:07:40.077Z] [DEBUG] [ClaudeClient] Tokens: in=2659 out=2177
+[2026-04-17T03:07:55.744Z] [DEBUG] [ClaudeClient] Tokens: in=2167 out=2815
+
+============================================================
+[SESSION START] 2026-04-17T03:09:41.123Z
+============================================================
+[2026-04-17T03:09:41.120Z] [INFO ] [ClaudeAgent] Extracting criteria: "nhạc trẻ nói về tình yêu"
+[2026-04-17T03:09:48.438Z] [DEBUG] [ClaudeClient] Tokens: in=720 out=293
+
+============================================================
+[SESSION START] 2026-04-17T03:11:43.671Z
+============================================================
+[2026-04-17T03:11:43.669Z] [INFO ] [ClaudeAgent] Extracting criteria: "nhạc trẻ nói về tình yêu"
+[2026-04-17T03:11:50.369Z] [DEBUG] [ClaudeClient] Tokens: in=720 out=296
+
+============================================================
+[SESSION START] 2026-04-17T03:12:16.664Z
+============================================================
+[2026-04-17T03:12:16.662Z] [INFO ] [Orchestrator] Orchestrator ready [Claude/claude-sonnet-4.6] {"maxResults":15}
+[2026-04-17T03:12:16.664Z] [INFO ] [Orchestrator] === SEARCH: "nhạc trẻ nói về tình yêu" (target=15) ===
+[2026-04-17T03:12:16.664Z] [INFO ] [ClaudeAgent] Extracting criteria: "nhạc trẻ nói về tình yêu"
+[2026-04-17T03:12:23.695Z] [DEBUG] [ClaudeClient] Tokens: in=720 out=290
+[2026-04-17T03:12:23.696Z] [INFO ] [ClaudeAgent] Criteria: 20 artists, 3 thematic
+[2026-04-17T03:12:23.696Z] [INFO ] [Orchestrator] AI suggested 20 artists + 3 thematic keywords
+[2026-04-17T03:12:23.698Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/S%C6%A1n%2520T%C3%B9ng%2520M-TP/author.html
+[2026-04-17T03:12:23.700Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/%C4%90en%2520V%C3%A2u/author.html
+[2026-04-17T03:12:23.702Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Ho%C3%A0ng%2520D%C5%A9ng/author.html
+[2026-04-17T03:12:23.704Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/V%C5%A9./author.html
+[2026-04-17T03:12:23.705Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Phan%2520M%E1%BA%A1nh%2520Qu%E1%BB%B3nh/author.html
+[2026-04-17T03:12:24.241Z] [INFO ] [VcpmcScraper] Keyword "Đen Vâu" -> 0 records
+[2026-04-17T03:12:24.335Z] [INFO ] [VcpmcScraper] Keyword "Vũ." -> 1 records
+[2026-04-17T03:12:24.514Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Ho%C3%A0ng%2520D%C5%A9ng/author-page2.html
+[2026-04-17T03:12:24.583Z] [INFO ] [VcpmcScraper] Keyword "Sơn Tùng M-TP" -> 0 records
+[2026-04-17T03:12:24.808Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Phan%2520M%E1%BA%A1nh%2520Qu%E1%BB%B3nh/author-page2.html
+[2026-04-17T03:12:25.098Z] [INFO ] [VcpmcScraper] Keyword "Hoàng Dũng" -> 40 records
+[2026-04-17T03:12:25.234Z] [INFO ] [VcpmcScraper] Keyword "Phan Mạnh Quỳnh" -> 40 records
+[2026-04-17T03:12:25.337Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Erik/author.html
+[2026-04-17T03:12:25.339Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/B%C3%B9i%2520Anh%2520Tu%E1%BA%A5n/author.html
+[2026-04-17T03:12:25.339Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Noo%2520Ph%C6%B0%E1%BB%9Bc%2520Th%E1%BB%8Bnh/author.html
+[2026-04-17T03:12:25.340Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Tr%E1%BB%8Bnh%2520Th%C4%83ng%2520B%C3%ACnh/author.html
+[2026-04-17T03:12:25.341Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/MIN/author.html
+[2026-04-17T03:12:25.750Z] [INFO ] [VcpmcScraper] Keyword "Bùi Anh Tuấn" -> 1 records
+[2026-04-17T03:12:25.798Z] [INFO ] [VcpmcScraper] Keyword "Noo Phước Thịnh" -> 0 records
+[2026-04-17T03:12:25.900Z] [INFO ] [VcpmcScraper] Keyword "Erik" -> 12 records
+[2026-04-17T03:12:25.989Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Tr%E1%BB%8Bnh%2520Th%C4%83ng%2520B%C3%ACnh/author-page2.html
+[2026-04-17T03:12:26.114Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/MIN/author-page2.html
+[2026-04-17T03:12:26.518Z] [INFO ] [VcpmcScraper] Keyword "Trịnh Thăng Bình" -> 40 records
+[2026-04-17T03:12:26.764Z] [INFO ] [VcpmcScraper] Keyword "MIN" -> 40 records
+[2026-04-17T03:12:26.867Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Ho%C3%A0ng%2520Th%C3%B9y%2520Linh/author.html
+[2026-04-17T03:12:26.869Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Jack/author.html
+[2026-04-17T03:12:26.870Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Karik/author.html
+[2026-04-17T03:12:26.871Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Justatee/author.html
+[2026-04-17T03:12:26.871Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Tlinh/author.html
+[2026-04-17T03:12:27.304Z] [INFO ] [VcpmcScraper] Keyword "Tlinh" -> 3 records
+[2026-04-17T03:12:27.434Z] [INFO ] [VcpmcScraper] Keyword "Justatee" -> 2 records
+[2026-04-17T03:12:27.443Z] [INFO ] [VcpmcScraper] Keyword "Hoàng Thùy Linh" -> 1 records
+[2026-04-17T03:12:27.769Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Karik/author-page2.html
+[2026-04-17T03:12:27.784Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Jack/author-page2.html
+[2026-04-17T03:12:28.305Z] [INFO ] [VcpmcScraper] Keyword "Jack" -> 40 records
+[2026-04-17T03:12:28.436Z] [INFO ] [VcpmcScraper] Keyword "Karik" -> 40 records
+[2026-04-17T03:12:28.538Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Wren%2520Evans/author.html
+[2026-04-17T03:12:28.540Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Orange/author.html
+[2026-04-17T03:12:28.540Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Ph%C6%B0%C6%A1ng%2520Ly/author.html
+[2026-04-17T03:12:28.540Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/T%C3%B3c%2520Ti%C3%AAn/author.html
+[2026-04-17T03:12:28.541Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/M%E1%BB%B9%2520T%C3%A2m/author.html
+[2026-04-17T03:12:29.013Z] [INFO ] [VcpmcScraper] Keyword "Orange" -> 3 records
+[2026-04-17T03:12:29.066Z] [INFO ] [VcpmcScraper] Keyword "Tóc Tiên" -> 2 records
+[2026-04-17T03:12:29.081Z] [INFO ] [VcpmcScraper] Keyword "Phương Ly" -> 19 records
+[2026-04-17T03:12:29.137Z] [INFO ] [VcpmcScraper] Keyword "Wren Evans" -> 0 records
+[2026-04-17T03:12:29.344Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/M%E1%BB%B9%2520T%C3%A2m/author-page2.html
+[2026-04-17T03:12:29.901Z] [INFO ] [VcpmcScraper] Keyword "Mỹ Tâm" -> 40 records
+[2026-04-17T03:12:30.003Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/t%C3%ACnh%2520y%C3%AAu/author.html
+[2026-04-17T03:12:30.004Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/y%C3%AAu%2520em/author.html
+[2026-04-17T03:12:30.005Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/nh%E1%BB%9B%2520em/author.html
+[2026-04-17T03:12:30.705Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/nh%E1%BB%9B%2520em/author-page2.html
+[2026-04-17T03:12:30.898Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/t%C3%ACnh%2520y%C3%AAu/author-page2.html
+[2026-04-17T03:12:30.906Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/y%C3%AAu%2520em/author-page2.html
+[2026-04-17T03:12:31.269Z] [INFO ] [VcpmcScraper] Keyword "nhớ em" -> 40 records
+[2026-04-17T03:12:31.374Z] [INFO ] [VcpmcScraper] Keyword "yêu em" -> 40 records
+[2026-04-17T03:12:31.653Z] [INFO ] [VcpmcScraper] Keyword "tình yêu" -> 40 records
+[2026-04-17T03:12:31.654Z] [INFO ] [Orchestrator] VCPMC search: 424 unique records from 23 keywords
+[2026-04-17T03:12:31.654Z] [INFO ] [Orchestrator] First batch: 424 unique VCPMC records
+[2026-04-17T03:12:31.655Z] [INFO ] [ClaudeAgent] Curating 60 records (of 424)...
+[2026-04-17T03:12:35.518Z] [DEBUG] [ClaudeClient] Tokens: in=1888 out=4
+[2026-04-17T03:12:49.279Z] [DEBUG] [ClaudeClient] Tokens: in=1844 out=1047
+[2026-04-17T03:12:50.409Z] [DEBUG] [ClaudeClient] Tokens: in=1838 out=1316
+[2026-04-17T03:12:50.412Z] [INFO ] [ClaudeAgent] iTunes: 0/60 matched
+[2026-04-17T03:12:50.413Z] [INFO ] [ClaudeAgent] Curated 5 songs from 60 records
+[2026-04-17T03:12:50.413Z] [INFO ] [Orchestrator] Loop 1: curated 5 from 424
+[2026-04-17T03:12:50.420Z] [INFO ] [ClaudeAgent] Generating more keywords (5/15 found)...
+[2026-04-17T03:12:54.843Z] [DEBUG] [ClaudeClient] Tokens: in=395 out=72
+[2026-04-17T03:12:54.844Z] [INFO ] [Orchestrator] Next loop keywords: [Binz, Rhymastic, Obito, Seachains, Touliver, Châu Đăng Khoa, Nguyễn Đình Vũ, Hứa Kim Tuyền]
+[2026-04-17T03:12:54.844Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Binz/author.html
+[2026-04-17T03:12:54.846Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Rhymastic/author.html
+[2026-04-17T03:12:54.847Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Obito/author.html
+[2026-04-17T03:12:54.848Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Seachains/author.html
+[2026-04-17T03:12:54.849Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Touliver/author.html
+[2026-04-17T03:12:55.379Z] [INFO ] [VcpmcScraper] Keyword "Obito" -> 6 records
+[2026-04-17T03:12:55.529Z] [INFO ] [VcpmcScraper] Keyword "Binz" -> 17 records
+[2026-04-17T03:12:55.718Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Touliver/author-page2.html
+[2026-04-17T03:12:55.802Z] [INFO ] [VcpmcScraper] Keyword "Seachains" -> 17 records
+[2026-04-17T03:12:56.020Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Rhymastic/author-page2.html
+[2026-04-17T03:12:56.215Z] [INFO ] [VcpmcScraper] Keyword "Touliver" -> 40 records
+[2026-04-17T03:12:56.562Z] [INFO ] [VcpmcScraper] Keyword "Rhymastic" -> 40 records
+[2026-04-17T03:12:56.665Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Ch%C3%A2u%2520%C4%90%C4%83ng%2520Khoa/author.html
+[2026-04-17T03:12:56.666Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Nguy%E1%BB%85n%2520%C4%90%C3%ACnh%2520V%C5%A9/author.html
+[2026-04-17T03:12:56.666Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/H%E1%BB%A9a%2520Kim%2520Tuy%E1%BB%81n/author.html
+[2026-04-17T03:12:57.345Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Ch%C3%A2u%2520%C4%90%C4%83ng%2520Khoa/author-page2.html
+[2026-04-17T03:12:57.387Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/H%E1%BB%A9a%2520Kim%2520Tuy%E1%BB%81n/author-page2.html
+[2026-04-17T03:12:57.433Z] [DEBUG] [VcpmcScraper] Fetching https://www.vcpmc.org/tim-kiem/Nguy%E1%BB%85n%2520%C4%90%C3%ACnh%2520V%C5%A9/author-page2.html
+[2026-04-17T03:12:57.782Z] [INFO ] [VcpmcScraper] Keyword "Châu Đăng Khoa" -> 40 records
+[2026-04-17T03:12:58.034Z] [INFO ] [VcpmcScraper] Keyword "Hứa Kim Tuyền" -> 40 records
+[2026-04-17T03:12:58.064Z] [INFO ] [VcpmcScraper] Keyword "Nguyễn Đình Vũ" -> 40 records
+[2026-04-17T03:12:58.065Z] [INFO ] [Orchestrator] VCPMC search: 196 unique records from 8 keywords
+[2026-04-17T03:12:58.065Z] [INFO ] [ClaudeAgent] Curating 60 records (of 196)...
+[2026-04-17T03:13:20.888Z] [DEBUG] [ClaudeClient] Tokens: in=1623 out=1322
+[2026-04-17T03:13:21.574Z] [DEBUG] [ClaudeClient] Tokens: in=1780 out=2031
+[2026-04-17T03:13:32.760Z] [DEBUG] [ClaudeClient] Tokens: in=1675 out=2369
